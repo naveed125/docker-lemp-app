@@ -1,0 +1,25 @@
+version: '3'
+services:
+  web:
+    image: naveed125/nginx-php-fpm:latest
+    restart: always
+    ports:
+    - "80:80"
+    volumes:
+    - ./src:/var/www/html
+    links:
+    - db
+    environment:
+    - DEPLOYMENT=development
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: p@assw0rd!
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appdbuser
+      MYSQL_PASSWORD: p@ssw0rd!
+    volumes:
+    - ./data/mysql:/var/lib/mysql
